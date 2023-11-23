@@ -1,5 +1,4 @@
 
-
 //console.log("FRom supabase.int")
 
 // Fetch user profile data from Supabase
