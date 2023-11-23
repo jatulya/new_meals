@@ -39,6 +39,7 @@ function displayUserProfile(profileData) {
             <p>Restaurant or Individual: ${profileData.RI}</p>
             
         `;
+        
 
         // Set the HTML content of the profile details container
         profileDetailsContainer.innerHTML = profileHtml;
