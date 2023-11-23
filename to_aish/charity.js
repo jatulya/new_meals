@@ -46,13 +46,18 @@ function displayUserProfile(profileData) {
     }
 }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> d07c6f984f2f77f020f8f2ddd33b9b29ed07f8e7
 async function fetchDonationRequests() {
+    var st='No';
     try {
         const { data, error } = await supabase
             .from('Requests')
             .select('donor_name, Date, Quantity, food_type, Address')
+            .eq('Status',st)
         
         if (error) {
             throw error;
@@ -92,8 +97,8 @@ function displayRequests(record) {
             </div>
             <div class="donation-requestbtn button-allign">
                 <div class="btn-group status-buttons" role="group" aria-label="Basic example" >
-                    <button type="button" class="btn btn-primary status-buttons" >Accept</button>
-                    <button type="button" class="btn btn-primary status-buttons" >Decline</button>
+                    <button type="button" class="btn btn-primary status-buttons id="acceptbtn" >Accept</button>
+                    <button type="button" class="btn btn-primary status-buttons" id="declinbtn" >Decline</button>
                 </div>
             </div>
         `;
@@ -109,8 +114,12 @@ function displayRequests(record) {
 document.addEventListener('DOMContentLoaded', fetchUserProfile);
 document.addEventListener('DOMContentLoaded', fetchDonationRequests);
 
+<<<<<<< HEAD
 
 document.getElementById('acceptbtn').addEventListener('click', addToDonorTable);
+=======
+    document.getElementById('acceptbtn').addEventListener('click', addToDonorTable);
+>>>>>>> d07c6f984f2f77f020f8f2ddd33b9b29ed07f8e7
     console.log("Added event listener to it");
 
 async function addToDonorTable () {
