@@ -46,11 +46,6 @@ function displayUserProfile(profileData) {
     }
 }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> d07c6f984f2f77f020f8f2ddd33b9b29ed07f8e7
 async function fetchDonationRequests() {
     var st='No';
     try {
@@ -114,12 +109,7 @@ function displayRequests(record) {
 document.addEventListener('DOMContentLoaded', fetchUserProfile);
 document.addEventListener('DOMContentLoaded', fetchDonationRequests);
 
-<<<<<<< HEAD
-
-document.getElementById('acceptbtn').addEventListener('click', addToDonorTable);
-=======
     document.getElementById('acceptbtn').addEventListener('click', addToDonorTable);
->>>>>>> d07c6f984f2f77f020f8f2ddd33b9b29ed07f8e7
     console.log("Added event listener to it");
 
 async function addToDonorTable () {
