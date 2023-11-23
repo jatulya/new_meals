@@ -122,6 +122,3 @@ function displayRequests(record) {
 document.addEventListener('DOMContentLoaded', fetchUserProfile);
 document.addEventListener('DOMContentLoaded', fetchDeliveryRequests);
 
-function redirectToLogin() {
-    window.location.href = 'index.html';
-  }

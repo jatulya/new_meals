@@ -1,5 +1,4 @@
 
-
 //console.log("FRom supabase.int")
 
 // Fetch user profile data from Supabase
@@ -107,14 +106,6 @@ function displayRequests(record) {
         console.log('completed');
 
 }
-
-
-
 // Call the fetchUserProfile function when the page is loaded
 document.addEventListener('DOMContentLoaded', fetchUserProfile);
 document.addEventListener('DOMContentLoaded', fetchDonationRequests);
-
-
-function redirectToLogin() {
-    window.location.href = 'index.html';
-  }
