@@ -52,10 +52,12 @@ function displayUserProfile(profileData) {
 
 
 async function fetchDonationRequests() {
+    var st='No';
     try {
         const { data, error } = await supabase
             .from('Requests')
             .select('donor_name, Date, Quantity, food_type, Address')
+            .eq('Status',st)
         
         if (error) {
             throw error;
