@@ -9,8 +9,8 @@ async function fetchUserProfile() {
 
     try {
         const { data, error } = await supabase
-            .from('Donor')
-            .select('Name, Address, Ph_no, Email, RI')
+            .from('Volunteers')
+            .select('Name, DoB, Address, Ph_no, Email, Area_avail, From, To')
             .eq('Email', storedEmail)
             .single();
 
@@ -32,11 +32,15 @@ function displayUserProfile(profileData) {
     if (profileData) {
         // Construct HTML to display user profile details
         const profileHtml = `
-            <p>${profileData.Name}</p>
+            <h4>${profileData.Name}</h4>
+            <p>Date of Birth: ${profileData.DoB}</p>
             <p>Address: ${profileData.Address}</p>
             <p>Ph_no: ${profileData.Ph_no}</p>
             <p>Email: ${profileData.Email}</p>
-            <p>Restaurant or Individual: ${profileData.RI}</p>
+            <p>Area available: ${profileData.Area_avail}</p>
+            <p>Available from: ${profileData.From}</p>
+            <p>Available till: ${profileData.To}</p>
+            
             
         `;
 

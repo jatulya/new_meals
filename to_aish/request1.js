@@ -72,6 +72,8 @@ function removeItem(index) {
   localStorage.setItem('reqlist', JSON.stringify(reqlist));
 }
 
+
+
 async function handleFormSubmit() {
   // Gather data from the form
   const foodType = document.getElementById('food_type').value;
