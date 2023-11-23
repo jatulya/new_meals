@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="donor.css"> 
+    <script src="donor.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg nav1">
+        <div class="container-fluid">
+          <img src="./images/logomain.png" alt="Icon" width="120" height="50" class="d-inline-block align-top">         
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+          <li>
+            <div class="logout" onclick="redirectToLogin()">
+                Log Out
+            </div>
+          </li>
+          </ul>          
+        </div>
+    </nav>
+    <div class="profile-ctn"> Your Profile</div>
+    <div class="container mt-4">
+        <div class="row">
+          <div class="col-md-4 box-ctn">
+            <div class="to-mid">
+            <img src="./images/profileimg.jpeg" alt="Profile" class="profile-image">
+            <h4 class="font-weight-bold mb-2 ">Steve Harrington</h4>
+            <p class="text-muted">Volunteer</p> 
+            </div>
+            <div class="about-section">
+              <div class="heading">
+                About
+                <div class="line"></div>
+              </div>
+              <div class="details">
+                <p>Age: XX</p>
+                <p>Occupation: Occupation Name</p>
+                <p>Email: abcd@gmail.com</p>
+                <p>Address: Salvor lane, abcd city</p>
+                <p>Location: Kochi</p>
+                <p>Pin number: 686685</p>
+                <p>Contact number: 9999999999</p>
+                <p>Available from: Date/Time</p>
+              </div>
+            </div>       
+          </div>
+
+          <div class="col-md-4 box-ctn box-ctn2">
+            <div class="second-column">
+              <!-- Request Section -->
+              <div class="heading">
+                    Delivery Requests
+                <div class="line"></div>
+              </div>
+              <div class="delivery-requestcard js-delrequest">
+               <!-- <div class="delivery-requestdetails">
+                    <p>From : Zaatar Arabic Restaurant</p>
+                    <p>To : Thanal OldAge Home</p>
+                    <div class="row">
+                        <div class="col-4">
+                            <p>Quantity : 5kg</p>
+                            <p>Type : Non Veg</p>
+                        </div>
+                        <div class="col-4">
+                            <p>Location : Kochi</p>
+                            <p>Date : 19/11/2023</p>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                <div class="delivery-requestbtn button-allign">
+                    <div class="btn-group status-buttons" role="group" aria-label="Basic example" >
+                        <button type="button" class="btn btn-primary status-buttons">Accept</button>
+                        <button type="button" class="btn btn-primary status-buttons">Decline</button>
+                      </div>
+                </div>-->
+
+            </div>
+              
+          </div></div>
+          <div class="col-md-4 box-ctn">
+            <div class="heading">
+              Delivery History
+              <div class="line"></div>
+            </div>        
+            <div class="details">
+              <p>1. 10kg Food from Zaatar Arabic to Navaratna Orphanage</p>
+              <p>2. 5kg Food from Arabian palace to Tanal Oldage home</p>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="delivery.js"></script>
+</body>
+</html>

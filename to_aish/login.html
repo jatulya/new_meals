@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="login.css"/>
+</head>
+<body>
+    <div>
+        <div class="container-fluid loginpage">
+            <div class="login align-items-center">           
+                <div id="loginform">
+                    <form>
+                        <div class="top">
+                            <p class="heading">Log In</p>
+                            <select id="who" class="form-select" aria-label="Default select example">
+                                <option selected>Select an option</option>
+                                <option value="1">Donor</option>
+                                <option value="2">Charity organization</option>
+                                <option value="3">Volunteer</option>
+                              </select>
+                        </div>
+                        <br/>
+                        <div class="mb-3">
+                          <label for="exampleInputEmail1" class="form-label text-form">Email</label>
+                          <input type="email" class="form-control" id="email1" aria-describedby="emailHelp" placeholder="Enter your username">
+                        </div>
+                        <div class="mb-3">
+                          <label for="exampleInputPassword1" class="form-label text-form">Password</label>
+                          <input type="password" class="form-control " id="password1" placeholder="Enter password" size="50px">
+                        </div>
+                    
+                        <div class="d-grid gap-2"> 
+                        <button type="submit" class="btn btn-primary loginbtn textarea">Login</button>
+                        </div>
+                        <p class="newuser">New user? <a href="register.html">Sign In</a></p>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="common.js"></script>
+<script>
+    const { createClient } = supabase
+    supabase = createClient('https://jdpmvcqvpoettcqrwwcp.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkcG12Y3F2cG9ldHRjcXJ3d2NwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA0MDM1NzEsImV4cCI6MjAxNTk3OTU3MX0.DEVGEK7cU38SsU9fgbP85ERlSLJuPO7gdt_8zcWzsxM')
+
+    const form = document.querySelector('#loginform') //selected the form
+    form.addEventListener('submit', async(event) => { 
+        event.preventDefault() 
+        //creating a user to authenticate       
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: document.getElementById('email1').value ,
+          password: document.getElementById('password1').value,
+        })
+
+        if (error){
+            alert(`Error: ${error.message}`);
+        }
+        else{
+            let whoI = document.getElementById('who').value
+            console.log(whoI)
+            if(whoI == 1){
+                window.location.href = "donor.html";
+            }
+            if(whoI == 2){
+                window.location.href = "charity.html";
+            }
+            if(whoI == 3){
+                window.location.href = "volunteer.html";
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,77 @@
+.loginpage{
+    background-color:#4B5320; 
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding-top: 120px;
+ }
+ .registerpage{
+     background-color:#4B5320; 
+    height: 190vh;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+ }
+ 
+ .login{
+     background-color: white;
+     height: 80%;
+     width:45%;
+     border-radius: 2%;
+     justify-content: center;
+     display: flex;
+     padding-top: 20px;  
+ }
+ 
+ .register{
+     background-color: white;
+     height: 130vh;
+     width:50%;
+     border-radius: 2%;
+     justify-content: center;
+     display: flex; 
+ }
+ 
+ .loginform{
+     padding:100px;
+ }
+ 
+ .registerform{
+     padding: 50px;
+ }
+ 
+ .heading{
+     font-size: 27px;
+     font-weight: bold;
+     text-align: center;
+ }
+ .newuser{
+     text-align: center;
+     font-size: small;
+ }
+ 
+ .loginbtn{
+     background-color: #4B5320;
+     color: white;
+ }
+ 
+ .loginbtn:hover{
+     background-color: #7c873d;
+     border: #4B5320;
+ }
+ 
+ .text-form{
+     font-size: 16px;
+     font-weight: 500;
+ }
+ 
+ .textarea{
+     border:1px solid;
+     border-color: #dee2e6;
+     width: 100%;
+     box-sizing: border-box;
+    
+ }
+ 
+ 
+ 
