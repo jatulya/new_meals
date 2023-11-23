@@ -51,21 +51,6 @@
               class="profile-image"
             />
           </div>
-            <!-- <h4 class="font-weight-bold mb-2 js-charity">Thanal Oldage Home</h4>
-            <p class="text-muted">Charity organization</p> 
-            
-            <div class="about-section">
-              <div class="heading">
-                About
-                <div class="line"></div>
-              </div>
-              <div class="details">
-                <p>Age: 20</p>
-                <p>Email: mdl21cs069@mec.ac.in</p>
-                <p>Address: Kozhikode city</p>
-                <p>Contact number: 9998887774</p>
-              </div>
-            </div>-->
             <div id="profiledetails"></div>
           </div>
 
@@ -76,11 +61,7 @@
                 Donations Available
                 <div class="line"></div>
               </div>
-<<<<<<< HEAD
-              <div class="donation-requestcard js-request" id="availdonations"></div>
-=======
               <div class="js-request donation-requestcard" id="donate-card"></div>
->>>>>>> a3e16ddf9153d2bbcca5431f84a4b3211784c311
             </div>
           </div>
 
@@ -98,53 +79,7 @@
         </div>
       </div>
     </div>
-
-    <!--<script src="delivery.js"></script>-->
   </body>
   <script src="common1.js"></script>
-  <!--<script>
-    console.log("opened-> from the scipt tag");
-    console.log(storedEmail);
-    async function fetchUserProfile() {
-      try {
-        const { data, error } = await supabase
-          .from("Charity_Organisation")
-          .select("Name, Address, Ph_no, Email")
-          .eq("Email", storedEmail)
-          .single();
-
-        if (error) {
-          throw error;
-        }
-
-        // Display user profile details on the page
-        displayUserProfile(data);
-      } catch (error) {
-        console.error("Error fetching user profile:", error.message);
-      }
-    }
-
-    // Display user profile details on the page
-    function displayUserProfile(profileData) {
-      const profileDetailsContainer = document.getElementById("profiledetails");
-
-      if (profileData) {
-        // Construct HTML to display user profile details
-        const profileHtml = `
-            <h5>Name: ${profileData.Name}</h5>
-            <p>Address: ${profileData.Address}</p>
-            <p>Ph_no: ${profileData.Ph_no}</p>
-            <p>Email: ${profileData.Email}</p>         
-        `;
-
-        // Set the HTML content of the profile details container
-        profileDetailsContainer.innerHTML = profileHtml;
-      } else {
-        profileDetailsContainer.innerHTML = "<p>User profile not found.</p>";
-      }
-    }
-
-    // Call the fetchUserProfile function when the page is loaded
-    document.addEventListener("DOMContentLoaded", fetchUserProfile);
-  </script>-->
+  
 </html>

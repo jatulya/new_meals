@@ -46,10 +46,6 @@ function displayUserProfile(profileData) {
     }
 }
 
-
-
-
-
 async function fetchDonationRequests() {
     var st='No';
     try {
@@ -96,8 +92,8 @@ function displayRequests(record) {
             </div>
             <div class="donation-requestbtn button-allign">
                 <div class="btn-group status-buttons" role="group" aria-label="Basic example" >
-                    <button type="button" class="btn btn-primary status-buttons" >Accept</button>
-                    <button type="button" class="btn btn-primary status-buttons" >Decline</button>
+                    <button type="button" class="btn btn-primary status-buttons id="acceptbtn" >Accept</button>
+                    <button type="button" class="btn btn-primary status-buttons" id="declinbtn" >Decline</button>
                 </div>
             </div>
         `;
@@ -109,3 +105,12 @@ function displayRequests(record) {
 // Call the fetchUserProfile function when the page is loaded
 document.addEventListener('DOMContentLoaded', fetchUserProfile);
 document.addEventListener('DOMContentLoaded', fetchDonationRequests);
+
+    document.getElementById('acceptbtn').addEventListener('click', addToDonorTable);
+    console.log("Added event listener to it");
+
+async function addToDonorTable () {
+    console.log('accept button event listener');
+    const donor_name = document.getElementById('donor_name').value;
+    console.log(donor_name);
+}
