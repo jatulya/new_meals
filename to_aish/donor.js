@@ -49,3 +49,10 @@ function displayUserProfile(profileData) {
 
 // Call the fetchUserProfile function when the page is loaded
 document.addEventListener('DOMContentLoaded', fetchUserProfile);
+<<<<<<< HEAD
+=======
+function redirectToLogin() {
+    window.location.href = "index.html";
+}
+
+>>>>>>> d2159b7da2c175580601377152c024cc881f8b58
