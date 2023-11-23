@@ -122,3 +122,4 @@ function displayRequests(record) {
 document.addEventListener('DOMContentLoaded', fetchUserProfile);
 document.addEventListener('DOMContentLoaded', fetchDeliveryRequests);
 
+

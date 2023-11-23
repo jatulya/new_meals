@@ -1,6 +1,5 @@
 
 //console.log("FRom supabase.int")
-
 // Fetch user profile data from Supabase
 async function fetchUserProfile() {
     // Assume you have a user ID, replace '123' with the actual user ID
@@ -34,9 +33,7 @@ function displayUserProfile(profileData) {
             <p>${profileData.Name}</p>
             <p>Address: ${profileData.Address}</p>
             <p>Ph_no: ${profileData.Ph_no}</p>
-            <p>Email: ${profileData.Email}</p>
-            
-            
+            <p>Email: ${profileData.Email}</p>            
         `;
 
         // Set the HTML content of the profile details container
@@ -112,5 +109,10 @@ document.addEventListener('DOMContentLoaded', fetchDonationRequests);
 async function addToDonorTable () {
     console.log('accept button event listener');
     const donor_name = document.getElementById('donor_name').value;
+
     console.log(donor_name);
+}
+
+function redirectToLogin() {
+    window.location.href = "index.html";
 }
