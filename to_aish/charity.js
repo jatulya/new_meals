@@ -9,8 +9,8 @@ async function fetchUserProfile() {
 
     try {
         const { data, error } = await supabase
-            .from('Donor')
-            .select('Name, Address, Ph_no, Email, RI')
+            .from('Charity_Organisation')
+            .select('Name, Address, Ph_no, Email')
             .eq('Email', storedEmail)
             .single();
 
@@ -36,7 +36,7 @@ function displayUserProfile(profileData) {
             <p>Address: ${profileData.Address}</p>
             <p>Ph_no: ${profileData.Ph_no}</p>
             <p>Email: ${profileData.Email}</p>
-            <p>Restaurant or Individual: ${profileData.RI}</p>
+            
             
         `;
 
