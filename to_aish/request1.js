@@ -9,8 +9,6 @@ async function handleFormSubmit() {
   console.log("Inside the asynch function")
 
   const foodType = document.getElementById('food_type').value;
-  const nameDonor = document.getElementById('nameDonor').value;
-  const addrDonor = document.getElementById('addrDonor').value;
   const foodWeight = document.getElementById('foodWeight').value;
   const foodItems = document.getElementById('foodItems').value;
   const foodTime = document.getElementById('foodTime').value;
@@ -20,18 +18,15 @@ async function handleFormSubmit() {
     try{
     const DonorName = await supabase.from('Donor').select('Name').eq('Email', storedEmail).single();
     const DonorAddr = await supabase.from('Donor').select('Address').eq('Email', storedEmail).single();
-    console.log("Fetched data from donor", DonorAddr, DonorName);
-    }
-  catch (e){console.log("Failed to fetch from donor..")}
-
+    console.log("Fetched data from donor", DonorAddr.data.Address, DonorName.data.Name);
     const { data, error } = await supabase.from('Requests').insert([
       {
         food_type:foodType,
         Quantity:foodWeight,
         Items: foodItems,
         Date: foodTime,
-        Address: addrDonor,
-        donor_name: nameDonor
+        Address: DonorAddr.data.Address,
+        donor_name: DonorName.data.Name
       }])
 
     if(error){
@@ -40,4 +35,8 @@ async function handleFormSubmit() {
     else{
       console.log("Data successfully inserted to Requests..",data)
     }
+    }
+  catch (e){console.log("Failed to fetch from donor..")}
+
+    
   }
