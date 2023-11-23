@@ -39,7 +39,6 @@ function displayUserProfile(profileData) {
             <p>Restaurant or Individual: ${profileData.RI}</p>
             
         `;
-        
 
         // Set the HTML content of the profile details container
         profileDetailsContainer.innerHTML = profileHtml;
@@ -50,4 +49,3 @@ function displayUserProfile(profileData) {
 
 // Call the fetchUserProfile function when the page is loaded
 document.addEventListener('DOMContentLoaded', fetchUserProfile);
-

@@ -48,8 +48,6 @@ function displayUserProfile(profileData) {
 
 
 
-
-
 async function fetchDonationRequests() {
     try {
         const { data, error } = await supabase
@@ -104,6 +102,19 @@ function displayRequests(record) {
         console.log('completed');
 
 }
+
+
+
 // Call the fetchUserProfile function when the page is loaded
 document.addEventListener('DOMContentLoaded', fetchUserProfile);
 document.addEventListener('DOMContentLoaded', fetchDonationRequests);
+
+
+document.getElementById('acceptbtn').addEventListener('click', addToDonorTable);
+    console.log("Added event listener to it");
+
+async function addToDonorTable () {
+    console.log('accept button event listener');
+    const donor_name = document.getElementById('donor_name').value;
+    console.log(donor_name);
+}
