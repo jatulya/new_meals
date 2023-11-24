@@ -51,8 +51,6 @@ function displayUserProfile(profileData) {
     }
 }
 
-
-
 async function fetchDeliveryRequests() {
     var st2='Noone';
     var st='No';
@@ -115,11 +113,12 @@ function displayRequests(record) {
 
 }
 
-
-
-
 // Call the fetchUserProfile function when the page is loaded
 document.addEventListener('DOMContentLoaded', fetchUserProfile);
 document.addEventListener('DOMContentLoaded', fetchDeliveryRequests);
+
+function redirectToLogin() {
+    window.location.href = "index.html";
+}
 
 
