@@ -19,9 +19,9 @@
                             <p class="heading">Log In</p>
                             <select id="who" class="form-select" aria-label="Default select example">
                                 <option selected>Select an option</option>
-                                <option value="1">Donor</option>
-                                <option value="2">Charity organization</option>
-                                <option value="3">Volunteer</option>
+                                <option value="Donor">Donor</option>
+                                <option value="Charity_Organisation">Charity organization</option>
+                                <option value="Volunteers">Volunteer</option>
                               </select>
                         </div>
                         <br/>
@@ -58,7 +58,7 @@
           email: document.getElementById('email1').value ,
           password: document.getElementById('password1').value,
         })
-        console.log("Fetched the form data ->", data)
+        
         if (error){
             alert(`Error: ${error.message}`);
         }
@@ -68,14 +68,31 @@
             const userEmail = document.getElementById('email1').value;
             localStorage.setItem('userEmail', userEmail);
             console.log(userEmail)
-            if(whoI == 1){
-                window.location.href = "donor.html";
+            const { data, error } = await supabase.from(whoI).select('*').eq('Email',userEmail )            
+
+            if(whoI == "Donor"){  
+                if (data.length){
+                    window.location.href = "donor.html";
+                }
+                else{
+                alert("User doesn't exist")
+                }
             }
             if(whoI == 2){
-                window.location.href = "charity.html";
+                if (data.length){
+                    window.location.href = "charity.html";
+                }
+                else{
+                alert("User doesn't exist")
+                }           
             }
             if(whoI == 3){
-                window.location.href = "volunteer.html";
+                if (data.length){
+                    window.location.href = "volunteer.html";
+                }
+                else{
+                alert("User doesn't exist")
+                }             
             }
         }
     })
