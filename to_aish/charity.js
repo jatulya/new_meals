@@ -142,6 +142,8 @@ async function addToOrderTable (event) {
     const detailsContainer = event.target.closest('.requests');
     console.log(detailsContainer);
     event.target.disabled = true;
+    const dec = detailsContainer.querySelector('.declinebtnclass')
+    dec.disabled = true;
     const reqID = detailsContainer.querySelector('.js-reqID').textContent.split(':')[1].trim();
     const donorName = detailsContainer.querySelector('.js-donor2').textContent.split(':')[1].trim();
     const quantity = detailsContainer.querySelector('.js-qty2').textContent.split(':')[1].trim();
@@ -191,7 +193,6 @@ async function addToOrderTable (event) {
                             Item : item
                         },
                     ]);
-
                 if (error) {
                     throw new Error(`Error adding to Order Table: ${error.message}`);
                 }
@@ -205,32 +206,6 @@ async function addToOrderTable (event) {
     } catch (e) {
         console.error('Error fetching user profile:', e.message);
     }
-    /* Add the details to the 'DonorTable' using Supabase
-    try {
-        const { data, error } = await supabase
-            .from('Orders')
-            .upsert([
-                {
-                    R_id : reqID,
-                    C_id : charityID.N_id,
-                    charity_name : charityName.Name,
-                    donor_name: donorName,
-                    Quantity: quantity,
-                    food_type: foodType,
-                    Address: address,
-                    Date: date,
-                    Item : item
-                },
-            ]);
-
-        if (error) {
-            throw new Error(`Error adding to Order Table: ${error.message}`);
-        }
-
-        console.log('Added to Order Table:', data);
-    } catch (error) {
-        console.error(error.message);
-    }*/
 }
 
 function redirectToLogin() {
