@@ -109,6 +109,16 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchUserProfile();
     console.log('start')   
 
+    const deleteProfileButton = document.getElementById('deleteprofile');
+    deleteProfileButton.addEventListener('click', () => {
+        // Ask for confirmation
+        const isConfirmed = confirm('Are you sure you want to delete your profile?');
+        if (isConfirmed) {
+            // Perform the deletion
+            deleteProfile();
+        }
+    });
+
     //Move the declaration of acceptBtn inside the event listener
     fetchDeliveryRequests()
         .then(() => {
@@ -192,8 +202,26 @@ async function addToOrderTable (event) {
     }
 }
 
+async function deleteProfile() {
+    try {
+        const { data, error } = await supabase
+            .from('Volunteers')
+            .delete()
+            .eq('Email', storedEmail); 
+        if (error) {
+            throw error;
+        }
+        console.log('Profile deleted successfully');
+        window.location.href = "index.html"
+    } catch (error) {
+        console.error('Error deleting profile:', error.message);
+    }
+}
 function redirectToLogin() {
     window.location.href = "index.html";
 }
 
+function redirectToVolUpdate() {
+    window.location.href = 'volunteerupdate.html';
+}
 
