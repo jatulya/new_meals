@@ -233,7 +233,7 @@ async function addToOrderTable (event) {
         }
 
         console.log('Profile deleted successfully');
-        window.location.href = 'login.html'
+        window.location.href = 'index.html'
     } catch (error) {
         console.error('Error deleting profile:', error.message);
     }
