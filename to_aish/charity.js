@@ -1,23 +1,22 @@
 //console.log("FRom supabase.int")
 async function fetchUserProfile() {
-    console.log(storedEmail);
-    try {
-        const { data, error } = await supabase
-            .from('Charity_Organisation')
-            .select('Name, Address, Ph_no, Email')
-            .eq('Email', storedEmail)
-            .single();
+        console.log(storedEmail);
+        try {
+            const { data, error } = await supabase
+                .from('Charity_Organisation')
+                .select('Name, Address, Ph_no, Email')
+                .eq('Email', storedEmail)
+                .single();
 
-        if (error) {
-            throw error;
+            if (error) {
+                throw error;
+            }
+            // Display user profile details on the page
+            displayUserProfile(data);
+        } catch (error) {
+            console.error('Error fetching user profile:', error.message);
         }
-
-        // Display user profile details on the page
-        displayUserProfile(data);
-    } catch (error) {
-        console.error('Error fetching user profile:', error.message);
     }
-}
 
 // Display user profile details on the page
 function displayUserProfile(profileData) {
@@ -44,7 +43,7 @@ async function fetchDonationRequests() {
     try {
         const { data, error } = await supabase
             .from('Requests')
-            .select('donor_name, Date, Quantity, food_type, Address')
+            .select('R_id, donor_name, Date, Quantity, food_type, Address, Items')
             .eq('Status',st)
         
         if (error) {
@@ -67,38 +66,39 @@ async function fetchDonationRequests() {
 function displayRequests(record) {
     console.log('running display');
     const donationReqContainer = document.getElementById('donate-card');
-
-        const recordDiv = document.createElement('div');
-        recordDiv.innerHTML = `<div class="requests">
-            <div>
-                <p class="js-donor2">Donor: ${record.donor_name}</p>
-                <div class="row">
-                    <div class="col-4">
-                        <p class="js-qty2">Quantity : ${record.Quantity}</p>
-                        <p class="js-foodtype2">Type : ${record.food_type}</p>
-                    </div>
-                    <div class="col-4">
-                        <p class="js-city2">Location: ${record.Address}</p> 
-                        <p class="js-date2">Date:${record.Date}</p>           
-                    </div>
+    const recordDiv = document.createElement('div');
+    recordDiv.innerHTML = `<div class="requests">
+        <div>
+            <p class="js-reqID">Request ID: ${record.R_id}</p>
+            <div class="row">
+                <div class="col-4">
+                    <p class="js-donor2">Donor: ${record.donor_name}</p>
+                    <p class="js-city2">Location: ${record.Address}</p> 
+                    <p class="js-date2">Date: ${record.Date}</p>
                 </div>
+                <div class="col-4">
+                    <p class="js-qty2">Quantity : ${record.Quantity}</p>
+                    <p class="js-foodtype2">Type : ${record.food_type}</p>
+                    <p class="js-item2">Item: ${record.Items}</p>  
+                </div>              
             </div>
-            <div class="donation-requestbtn button-allign">
-                <div class="btn-group status-buttons" role="group" aria-label="Basic example" >
+        </div>
+        <div class="donation-requestbtn button-allign">
+            <div class="btn-group status-buttons" role="group" aria-label="Basic example" >
                 <button type="button" class="btn btn-primary status-buttons acceptbtnclass" >Accept</button>
                 <button type="button" class="btn btn-primary status-buttons">Decline</button>
-                </div>
-            </div></div>
-        `;
-        console.log('ok');
-        donationReqContainer.appendChild(recordDiv);
-        console.log('completed');
-
+            </div>
+        </div></div>`;
+    console.log('ok');
+    donationReqContainer.appendChild(recordDiv);
+    console.log('completed');
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     fetchUserProfile();
-    console.log('start');
-    // Move the declaration of acceptBtn inside the event listener
+    console.log('start')   
+
+    //Move the declaration of acceptBtn inside the event listener
     fetchDonationRequests()
         .then(() => {
             // Fetching is completed, now get the acceptbtn
@@ -118,27 +118,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function addToOrderTable (event) {
     console.log('accept button event listener');
-    const detailsContainer = event.target.closest('.requests');
     
+
+    
+
+    //fetching from the parent div element in the container
+    const detailsContainer = event.target.closest('.requests');
     console.log(detailsContainer);
     event.target.disabled = true;
+    const reqID = detailsContainer.querySelector('.js-reqID').textContent.split(':')[1].trim();
     const donorName = detailsContainer.querySelector('.js-donor2').textContent.split(':')[1].trim();
     const quantity = detailsContainer.querySelector('.js-qty2').textContent.split(':')[1].trim();
     const foodType = detailsContainer.querySelector('.js-foodtype2').textContent.split(':')[1].trim();
     const address = detailsContainer.querySelector('.js-city2').textContent.split(':')[1].trim();
     const date = detailsContainer.querySelector('.js-date2').textContent.split(':')[1].trim();
-    
+    const item = detailsContainer.querySelector('.js-item2').textContent.split(':')[1].trim();
+    console.log("Selected text from the selected div element")
+
+    //updating the requests status
+    const done = await supabase.from('Requests').update({'Status' : 'Yes'}).eq('R_id', reqID)
+    if (done){
+        console.log("Updated the request status")    }
+    else{
+       console.log("Can't update the status")
+    }
+
     // Add the details to the 'DonorTable' using Supabase
     try {
         const { data, error } = await supabase
             .from('Orders')
             .upsert([
                 {
+                    R_id : reqID,
+                    C_id : charityID.N_id,
+                    charity_name : charityName.Name,
                     donor_name: donorName,
                     Quantity: quantity,
                     food_type: foodType,
                     Address: address,
                     Date: date,
+                    Item : item
                 },
             ]);
 
@@ -151,6 +170,7 @@ async function addToOrderTable (event) {
         console.error(error.message);
     }
 }
+
 function redirectToLogin() {
     window.location.href = "index.html";
 }

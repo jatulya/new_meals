@@ -34,9 +34,31 @@ async function handleFormSubmit() {
     }
     else{
       console.log("Data successfully inserted to Requests..",data)
+      clearForm('donateform')
     }
     }
   catch (e){console.log("Failed to fetch from donor..")}
 
-    
   }
+
+  function clearForm(formId) {
+    const form = document.getElementById(formId);
+    console.log("inside the clearForm function..")
+    if (form) {
+        // Iterate through all form elements
+        for (const element of form.elements) {
+            // Check if the element is an input, select, or textarea
+            if (
+                element.tagName === 'INPUT' ||
+                element.tagName === 'SELECT' ||
+                element.tagName === 'TEXTAREA'
+            ) {
+                // Clear the value
+                element.value = '';
+                console.log("Cleared the form")
+            }
+        }
+    } else {
+        console.log('Form not found');
+    }
+}
