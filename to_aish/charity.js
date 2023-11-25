@@ -121,6 +121,16 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => {
             console.error('Error fetching donation requests:', error.message);
         });
+
+        const deleteProfileButton = document.getElementById('deleteprofile');
+        deleteProfileButton.addEventListener('click', () => {
+            // Ask for confirmation
+            const isConfirmed = confirm('Are you sure you want to delete your profile?');   
+            if (isConfirmed) {
+                // Perform the deletion
+                deleteProfile();
+            } 
+        });
 });
 
 function declineData(event) {
@@ -208,6 +218,31 @@ async function addToOrderTable (event) {
     }
 }
 
+ // Function to delete the profile record from the Supabase table
+
+ async function deleteProfile() {
+    try {
+        // Assume 'profiles' is the name of your Supabase table
+        const { data, error } = await supabase
+            .from('Charity_Organisation')
+            .delete()
+            .eq('Email', storedEmail); // Replace 'user_id' and '123' with your actual identifier
+
+        if (error) {
+            throw error;
+        }
+
+        console.log('Profile deleted successfully');
+        window.location.href = 'login.html'
+    } catch (error) {
+        console.error('Error deleting profile:', error.message);
+    }
+}
+
 function redirectToLogin() {
     window.location.href = "index.html";
+}
+function redirectToAnotherPage1() {
+    // Replace 'another-page.html' with the actual URL of the page you want to navigate to
+    window.location.href = 'charityupdate.html';
 }
