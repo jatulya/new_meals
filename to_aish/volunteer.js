@@ -1,12 +1,8 @@
-
-
-//console.log("FRom supabase.int")
-
 // Fetch user profile data from Supabase
 async function fetchUserProfile() {
     // Assume you have a user ID, replace '123' with the actual user ID
     console.log(storedEmail);
-
+    
     try {
         const { data, error } = await supabase
             .from('Volunteers')
@@ -28,7 +24,7 @@ async function fetchUserProfile() {
 // Display user profile details on the page
 function displayUserProfile(profileData) {
     const profileDetailsContainer = document.getElementById('profiledetails');
-
+   
     if (profileData) {
         // Construct HTML to display user profile details
         const profileHtml = `
@@ -39,9 +35,7 @@ function displayUserProfile(profileData) {
             <p>Email: ${profileData.Email}</p>
             <p>Area available: ${profileData.Area_avail}</p>
             <p>Available from: ${profileData.From}</p>
-            <p>Available till: ${profileData.To}</p>
-            
-            
+            <p>Available till: ${profileData.To}</p>         
         `;
 
         // Set the HTML content of the profile details container
@@ -59,8 +53,7 @@ async function fetchDeliveryRequests() {
             .from('Orders')
             .select('*')
             .eq('volunteer',st2)
-            
-        
+                    
         if (error) {
             throw error;
         }
@@ -83,29 +76,28 @@ function displayRequests(record) {
     const donationReqContainer = document.getElementById('del-card');
 
         const recordDiv = document.createElement('div');
-        recordDiv.innerHTML = `
-        <div class="delivery-requestdetails">
-        <p>From : ${record.donor_name}</p>
-        <p>To : ${record.charity_name}</p>
-        <div class="row">
-            <div class="col-4">
-                <p>Quantity : ${record.Quantity}</p>
-                <p>Type: ${record.food_type}</p>
-            </div>
-            <div class="col-4">
-                <p>Location:${record.Address}</p>
-                <p>Date : ${record.Date}</p>
+        recordDiv.innerHTML = ` <div class="delivery">
+        <div class="delivery-requestdetails">      
+            <div class="row">
+                <p  class="js-orderID"> Order ID: ${record.O_id}</p>
+                <div class="col-4">
+                    <p class="js-donorName">From : ${record.donor_name}</p>
+                    <p class="js-orderQty">Quantity : ${record.Quantity}</p>
+                    <p class="js-orderFudType">Type: ${record.food_type}</p>
+                </div>
+                <div class="col-4">
+                    <p class="js-CharityName">To : ${record.charity_name}</p>
+                    <p class="js-orderAddr">Location:${record.Address}</p>
+                    <p class="js-orderDate">Date : ${record.Date}</p>
+                </div>
             </div>
         </div>
-        
-        
-    </div>
-    <div class="delivery-requestbtn button-allign">
-        <div class="btn-group status-buttons" role="group" aria-label="Basic example" >
-            <button type="button" class="btn btn-primary status-buttons">Accept</button>
-            <button type="button" class="btn btn-primary status-buttons" >Decline</button>
-          </div>
-    </div>
+        <div class="delivery-requestbtn button-allign">
+            <div class="btn-group status-buttons" role="group" aria-label="Basic example" >
+                <button type="button" class="btn btn-primary status-buttons acceptbtnclass">Accept</button>
+                <button type="button" class="btn btn-primary status-buttons declinebtnclass">Decline</button>
+            </div>
+        </div> <br> <br></div>
         `;
         console.log('ok');
         donationReqContainer.appendChild(recordDiv);
@@ -113,9 +105,92 @@ function displayRequests(record) {
 
 }
 
-// Call the fetchUserProfile function when the page is loaded
-document.addEventListener('DOMContentLoaded', fetchUserProfile);
-document.addEventListener('DOMContentLoaded', fetchDeliveryRequests);
+document.addEventListener('DOMContentLoaded', () => {
+    fetchUserProfile();
+    console.log('start')   
+
+    //Move the declaration of acceptBtn inside the event listener
+    fetchDeliveryRequests()
+        .then(() => {
+            // Fetching is completed, now get the acceptbtn
+            const acceptBtns = document.querySelectorAll('.acceptbtnclass');
+            console.log(acceptBtns);
+            // Attach event listener to each 'acceptbtn'
+            acceptBtns.forEach((btn) => {
+                btn.addEventListener('click', addToOrderTable);
+                console.log("Added event listener to an 'acceptbtn'");
+            });
+
+            const declineBtns = document.querySelectorAll('.declinebtnclass');
+            console.log(declineBtns);
+            // Attach event listener to each 'acceptbtn'
+            declineBtns.forEach((btn) => {
+                btn.addEventListener('click', declineData);
+                console.log("Added event listener to an 'declinebtn'");
+            });
+        console.log('end');
+        })
+        .catch(error => {
+            console.error('Error fetching donation requests:', error.message);
+        });
+});
+
+function declineData(event) {
+    const dataContainer = event.target.closest('.delivery');
+    if (dataContainer) {
+      dataContainer.remove();
+    } else {
+      console.warn("Data container not found.");
+    }
+}
+
+async function addToOrderTable (event) {
+    console.log('accept button event listener');
+
+    //fetching from the parent div element in the container
+    const detailsContainer = event.target.closest('.delivery');
+    
+    event.target.disabled = true; //accept btn disabled
+    const declineButton = detailsContainer.querySelector('.declinebtnclass');
+    declineButton.disabled=true //decline btn disabled
+
+    const OiD = detailsContainer.querySelector('.js-orderID').textContent.split(':')[1].trim();
+    try {
+        const {data, error}  = await supabase
+            .from('Volunteers')
+            .select('Name, V_id')
+            .eq('Email', storedEmail)
+            .single();
+            
+        if (error) {
+            throw error;
+        }   
+        // Display user profile details on the page
+            
+        const vname=data.Name;
+        const vid=data.V_id;
+        console.log(vname);  
+
+        // Add the details to the 'DonorTable' using Supabase
+        try {
+                const { data, error } = await supabase.from('Orders')
+                    .update([
+                        {
+                            volunteer : vname, 
+                        },
+                    ]).eq('O_id', OiD);
+                if (error) {
+                    throw new Error(`Error updating to Order Table: ${error.message}`);
+                }
+                console.log('Updated to Order Table:', data);
+        } 
+        catch (error) {
+                console.error(error.message);
+            }       
+    } catch (e) {
+        console.error('Error fetching user profile:', e.message);
+    }
+}
 
 function redirectToLogin() {
     window.location.href = "index.html";
