@@ -1,4 +1,58 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Assume you have a Supabase client instance called 'supabase'
+    //const supabase = createClient('YOUR_SUPABASE_URL', 'YOUR_SUPABASE_API_KEY');
+  
+    const deleteProfileButton = document.getElementById('deleteprofile');
+  
+    deleteProfileButton.addEventListener('click', () => {
+      // Ask for confirmation
+      const isConfirmed = confirm('Are you sure you want to delete your profile?');
+  
+      if (isConfirmed) {
+        // Perform the deletion
+        deleteProfile();
+      }
+      
+    });
+  
+    // Function to delete the profile record from the Supabase table
+    
+    async function deleteProfile() {
+      try {
+        // Assume 'profiles' is the name of your Supabase table
+        const { data, error } = await supabase
+          .from('Donor')
+          .delete()
+          .eq('Email', storedEmail); // Replace 'user_id' and '123' with your actual identifier
+  
+        if (error) {
+          throw error;
+        }
 
+        const { data: { user } } = await supabase.auth.getUser();
+        const userID = user.id ;
+        console.log(user)
+        console.log(userID)
+        /*const msg = await supabase.auth.deleteUser(userID)
+        if(msg.error){
+            console.log('User Not deleted');
+        }
+        else{
+            window.location.href = 'index.html';
+        }*/
+        
+  
+        console.log('Profile deleted successfully');
+      } catch (error) {
+        console.error('Error deleting profile:', error.message);
+      }
+    }
+  });
+
+  function redirectToAnotherPage() {
+    // Replace 'another-page.html' with the actual URL of the page you want to navigate to
+    window.location.href = 'donorupdate.html';
+  }
 
 //console.log("FRom supabase.int")
 

@@ -1,3 +1,47 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Assume you have a Supabase client instance called 'supabase'
+    //const supabase = createClient('YOUR_SUPABASE_URL', 'YOUR_SUPABASE_API_KEY');
+
+    const deleteProfileButton = document.getElementById('deleteprofile');
+
+    deleteProfileButton.addEventListener('click', () => {
+        // Ask for confirmation
+        const isConfirmed = confirm('Are you sure you want to delete your profile?');
+
+        if (isConfirmed) {
+            // Perform the deletion
+            deleteProfile();
+        }
+
+    });
+
+    // Function to delete the profile record from the Supabase table
+
+    async function deleteProfile() {
+        try {
+            // Assume 'profiles' is the name of your Supabase table
+            const { data, error } = await supabase
+                .from('Charity_Organisation')
+                .delete()
+                .eq('Email', storedEmail); // Replace 'user_id' and '123' with your actual identifier
+
+            if (error) {
+                throw error;
+            }
+
+            console.log('Profile deleted successfully');
+        } catch (error) {
+            console.error('Error deleting profile:', error.message);
+        }
+    }
+});
+
+function redirectToAnotherPage1() {
+    // Replace 'another-page.html' with the actual URL of the page you want to navigate to
+    window.location.href = 'charityupdate.html';
+}
+
+
 //console.log("FRom supabase.int")
 async function fetchUserProfile() {
     console.log(storedEmail);
@@ -40,13 +84,13 @@ function displayUserProfile(profileData) {
 }
 
 async function fetchDonationRequests() {
-    var st='No';
+    var st = 'No';
     try {
         const { data, error } = await supabase
             .from('Requests')
             .select('donor_name, Date, Quantity, food_type, Address')
-            .eq('Status',st)
-        
+            .eq('Status', st)
+
         if (error) {
             throw error;
         }
@@ -68,8 +112,8 @@ function displayRequests(record) {
     console.log('running display');
     const donationReqContainer = document.getElementById('donate-card');
 
-        const recordDiv = document.createElement('div');
-        recordDiv.innerHTML = `<div class="requests">
+    const recordDiv = document.createElement('div');
+    recordDiv.innerHTML = `<div class="requests">
             <div>
                 <p class="js-donor2">Donor: ${record.donor_name}</p>
                 <div class="row">
@@ -90,9 +134,9 @@ function displayRequests(record) {
                 </div>
             </div></div>
         `;
-        console.log('ok');
-        donationReqContainer.appendChild(recordDiv);
-        console.log('completed');
+    console.log('ok');
+    donationReqContainer.appendChild(recordDiv);
+    console.log('completed');
 
 }
 document.addEventListener('DOMContentLoaded', () => {
@@ -105,73 +149,74 @@ document.addEventListener('DOMContentLoaded', () => {
             const acceptBtns = document.querySelectorAll('.acceptbtnclass');
 
             const declineBtns = document.querySelectorAll('.declinebtnclass');
-            
+
             // Attach event listener to each 'acceptbtn'
             acceptBtns.forEach((btn) => {
                 btn.addEventListener('click', addToOrderTable);
                 console.log("Added event listener to an 'acceptbtn'");
 
-            declineBtns.forEach((btn) => {
-                btn.addEventListener('click', declineData);
-                console.log("Added event listener to an 'declinebtn'");
+                declineBtns.forEach((btn) => {
+                    btn.addEventListener('click', declineData);
+                    console.log("Added event listener to an 'declinebtn'");
 
-            
-        });
-        console.log('end');
-    })
-    .catch(error => {
-        console.error('Error fetching donation requests:', error.message);
-    });
-})
 
-function declineData(event) {
-    // Find the data container with the specified uniqueId
-    const dataContainer = event.target.closest('.requests');
-  
-    // Check if the data container exists before attempting to remove it
-    if (dataContainer) {
-      // Remove the data container from the DOM
-      dataContainer.remove();
-    } else {
-      console.warn(`Data container not found.`);
-    }
-  }
+                });
+                console.log('end');
+            })
+                .catch(error => {
+                    console.error('Error fetching donation requests:', error.message);
+                });
+        })
 
-async function addToOrderTable (event) {
-    console.log('accept button event listener');
-    const detailsContainer = event.target.closest('.requests');
-    
-    console.log(detailsContainer);
-    event.target.disabled = true;
-    const donorName = detailsContainer.querySelector('.js-donor2').textContent.split(':')[1].trim();
-    const quantity = detailsContainer.querySelector('.js-qty2').textContent.split(':')[1].trim();
-    const foodType = detailsContainer.querySelector('.js-foodtype2').textContent.split(':')[1].trim();
-    const address = detailsContainer.querySelector('.js-city2').textContent.split(':')[1].trim();
-    const date = detailsContainer.querySelector('.js-date2').textContent.split(':')[1].trim();
-    
-    // Add the details to the 'DonorTable' using Supabase
-    try {
-        const { data, error } = await supabase
-            .from('Orders')
-            .upsert([
-                {
-                    donor_name: donorName,
-                    Quantity: quantity,
-                    food_type: foodType,
-                    Address: address,
-                    Date: date,
-                },
-            ]);
+    function declineData(event) {
+        // Find the data container with the specified uniqueId
+        const dataContainer = event.target.closest('.requests');
 
-        if (error) {
-            throw new Error(`Error adding to Order Table: ${error.message}`);
+        // Check if the data container exists before attempting to remove it
+        if (dataContainer) {
+            // Remove the data container from the DOM
+            dataContainer.remove();
+        } else {
+            console.warn(`Data container not found.`);
         }
-
-        console.log('Added to Order Table:', data);
-    } catch (error) {
-        console.error(error.message);
     }
-}})
+
+    async function addToOrderTable(event) {
+        console.log('accept button event listener');
+        const detailsContainer = event.target.closest('.requests');
+
+        console.log(detailsContainer);
+        event.target.disabled = true;
+        const donorName = detailsContainer.querySelector('.js-donor2').textContent.split(':')[1].trim();
+        const quantity = detailsContainer.querySelector('.js-qty2').textContent.split(':')[1].trim();
+        const foodType = detailsContainer.querySelector('.js-foodtype2').textContent.split(':')[1].trim();
+        const address = detailsContainer.querySelector('.js-city2').textContent.split(':')[1].trim();
+        const date = detailsContainer.querySelector('.js-date2').textContent.split(':')[1].trim();
+
+        // Add the details to the 'DonorTable' using Supabase
+        try {
+            const { data, error } = await supabase
+                .from('Orders')
+                .upsert([
+                    {
+                        donor_name: donorName,
+                        Quantity: quantity,
+                        food_type: foodType,
+                        Address: address,
+                        Date: date,
+                    },
+                ]);
+
+            if (error) {
+                throw new Error(`Error adding to Order Table: ${error.message}`);
+            }
+
+            console.log('Added to Order Table:', data);
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+})
 function redirectToLogin() {
     window.location.href = "index.html";
 }

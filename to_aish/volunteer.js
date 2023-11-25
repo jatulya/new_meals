@@ -1,3 +1,48 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Assume you have a Supabase client instance called 'supabase'
+    //const supabase = createClient('YOUR_SUPABASE_URL', 'YOUR_SUPABASE_API_KEY');
+
+    const deleteProfileButton = document.getElementById('deleteprofile');
+
+    deleteProfileButton.addEventListener('click', () => {
+        // Ask for confirmation
+        const isConfirmed = confirm('Are you sure you want to delete your profile?');
+
+        if (isConfirmed) {
+            // Perform the deletion
+            deleteProfile();
+        }
+
+    });
+
+
+
+    // Function to delete the profile record from the Supabase table
+
+    async function deleteProfile() {
+        try {
+            // Assume 'profiles' is the name of your Supabase table
+            const { data, error } = await supabase
+                .from('Volunteers')
+                .delete()
+                .eq('Email', storedEmail); // Replace 'user_id' and '123' with your actual identifier
+
+            if (error) {
+                throw error;
+            }
+
+            console.log('Profile deleted successfully');
+        } catch (error) {
+            console.error('Error deleting profile:', error.message);
+        }
+    }
+});
+
+
+function redirectToVolUpdate() {
+    // Replace 'another-page.html' with the actual URL of the page you want to navigate to
+    window.location.href = 'volunteerupdate.html';
+}
 
 
 //console.log("FRom supabase.int")
@@ -52,15 +97,15 @@ function displayUserProfile(profileData) {
 }
 
 async function fetchDeliveryRequests() {
-    var st2='Noone';
-    var st='No';
+    var st2 = 'Noone';
+    var st = 'No';
     try {
         const { data, error } = await supabase
             .from('Orders')
             .select('*')
-            .eq('volunteer',st2)
-            
-        
+            .eq('volunteer', st2)
+
+
         if (error) {
             throw error;
         }
@@ -82,8 +127,8 @@ function displayRequests(record) {
     console.log('running display');
     const donationReqContainer = document.getElementById('del-card');
 
-        const recordDiv = document.createElement('div');
-        recordDiv.innerHTML = `
+    const recordDiv = document.createElement('div');
+    recordDiv.innerHTML = `
         <div class="delivery-requestdetails">
         <p>From : ${record.donor_name}</p>
         <p>To : ${record.charity_name}</p>
@@ -107,9 +152,9 @@ function displayRequests(record) {
           </div>
     </div>
         `;
-        console.log('ok');
-        donationReqContainer.appendChild(recordDiv);
-        console.log('completed');
+    console.log('ok');
+    donationReqContainer.appendChild(recordDiv);
+    console.log('completed');
 
 }
 
