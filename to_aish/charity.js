@@ -118,9 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function addToOrderTable (event) {
     console.log('accept button event listener');
-    
-
-    
 
     //fetching from the parent div element in the container
     const detailsContainer = event.target.closest('.requests');
@@ -143,7 +140,53 @@ async function addToOrderTable (event) {
        console.log("Can't update the status")
     }
 
-    // Add the details to the 'DonorTable' using Supabase
+    try {
+        const {data, error}  = await supabase
+            .from('Charity_Organisation')
+            .select('Name, N_id')
+            .eq('Email', storedEmail)
+            .single();
+            
+        if (error) {
+            throw error;
+        }   
+        // Display user profile details on the page
+            
+        const cname=data.Name;
+        const cid=data.N_id;
+        console.log(cname);  
+        
+        // Add the details to the 'DonorTable' using Supabase
+        try {
+                const { data, error } = await supabase.from('Orders')
+                    .upsert([
+                        {
+                            R_id : reqID,
+                            C_id : cid,
+                            charity_name : cname,
+                            donor_name: donorName,
+                            Quantity: quantity,
+                            food_type: foodType,
+                            Address: address,
+                            Date: date,
+                            Item : item
+                        },
+                    ]);
+
+                if (error) {
+                    throw new Error(`Error adding to Order Table: ${error.message}`);
+                }
+
+                console.log('Added to Order Table:', data);
+        } 
+        catch (error) {
+                console.error(error.message);
+            }
+        
+    } catch (e) {
+        console.error('Error fetching user profile:', e.message);
+    }
+    /* Add the details to the 'DonorTable' using Supabase
     try {
         const { data, error } = await supabase
             .from('Orders')
@@ -168,7 +211,7 @@ async function addToOrderTable (event) {
         console.log('Added to Order Table:', data);
     } catch (error) {
         console.error(error.message);
-    }
+    }*/
 }
 
 function redirectToLogin() {
