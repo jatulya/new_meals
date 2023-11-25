@@ -86,7 +86,7 @@ function displayRequests(record) {
         <div class="donation-requestbtn button-allign">
             <div class="btn-group status-buttons" role="group" aria-label="Basic example" >
                 <button type="button" class="btn btn-primary status-buttons acceptbtnclass" >Accept</button>
-                <button type="button" class="btn btn-primary status-buttons">Decline</button>
+                <button type="button" class="btn btn-primary status-buttons declinebtnclass">Decline</button>
             </div>
         </div></div>`;
     console.log('ok');
@@ -108,14 +108,33 @@ document.addEventListener('DOMContentLoaded', () => {
             acceptBtns.forEach((btn) => {
                 btn.addEventListener('click', addToOrderTable);
                 console.log("Added event listener to an 'acceptbtn'");
-        });
+            });
+            const declineBtns = document.querySelectorAll('.declinebtnclass');
+            console.log(declineBtns);
+            // Attach event listener to each 'acceptbtn'
+            declineBtns.forEach((btn) => {
+                btn.addEventListener('click', declineData);
+                console.log("Added event listener to an 'declinebtn'");
+            });
         console.log('end');
-    })
-    .catch(error => {
-        console.error('Error fetching donation requests:', error.message);
-    });
-})
+        })
+        .catch(error => {
+            console.error('Error fetching donation requests:', error.message);
+        });
+});
 
+function declineData(event) {
+    // Find the data container with the specified uniqueId
+    const dataContainer = event.target.closest('.requests');
+
+    // Check if the data container exists before attempting to remove it
+    if (dataContainer) {
+      // Remove the data container from the DOM
+      dataContainer.remove();
+    } else {
+      console.warn("Data container not found.");
+    }
+}
 async function addToOrderTable (event) {
     console.log('accept button event listener');
 
