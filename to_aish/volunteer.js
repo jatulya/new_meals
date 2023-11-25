@@ -224,4 +224,3 @@ function redirectToLogin() {
 function redirectToVolUpdate() {
     window.location.href = 'volunteerupdate.html';
 }
-
