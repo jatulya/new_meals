@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     updateButton.addEventListener('click', handleFormSubmit);
 });
 
+
 async function handleFormSubmit() {
     // Gather data from the form
     console.log("Inside the asynch function")
@@ -29,7 +30,13 @@ async function handleFormSubmit() {
         updateData['From'] = From1;
         updateData['To'] = To1;
         //const { error } = await supabase.from('Volunteers').update({ Name: Name1, Password: Password1, Ph_no: Ph_no1, Address: Address1, DoB: DoB, Area: Area, From: From, To: To }).eq('Email', storedEmail)
-        const { error } = await supabase.from('Volunteers').update(updateData).eq('Email', storedEmail)
+        const updateFields = {};
+        for (const field in updateData) {
+            if (!(updateData[field] === '')) {
+                updateFields[field] = updateData[field];
+            }
+        }
+        const { error } = await supabase.from('Volunteers').update(updateFields).eq('Email', storedEmail)
         if (error) {
             console.log("Failed to insert data: ", error)
         }
