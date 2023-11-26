@@ -158,9 +158,89 @@ function displayRequests(record) {
 
 }
 
+async function fetchUname() {
+    try {
+        const { data, error } = await supabase
+            .from('Volunteers')
+            .select('Name')
+            .eq('Email', storedEmail)
+            .single();
+        console.log(data, 'fetchuname');
+        console.log(data.Name)
+        var uname = data.Name;
+
+        if (error) {
+            throw error;
+        }
+
+        if (data) {
+            console.log(uname, 'got it');
+        } else {
+            console.log('User profile not found.');
+        }
+    }
+
+    catch (error) {
+        console.error('Error fetching user profile:', error.message);
+    }
+    console.log(uname, 'available here')
+    return uname;
+}
+
+async function fetchUserActivity() {
+    const uname1 = await fetchUname();
+    console.log(uname1, 'from fetchuseractivity')
+
+
+    try {
+        const { data, error } = await supabase
+            .from('Orders')
+            .select('Date, donor_name, charity_name, Item, Quantity')
+            .eq('volunteer', uname1)
+
+        console.log(data)
+
+        if (error) {
+            throw error;
+        }
+
+        data.forEach((record, index) => {
+            console.log('Processing record:', record);
+            displayUserActivity(record);
+        });
+
+
+    } catch (error) {
+        console.error('Error fetching user profile:', error.message);
+    }
+}
+
+function displayUserActivity(record) {
+    const profileDetailsContainer = document.getElementById('activity');
+    const recordDiv = document.createElement('div');
+    recordDiv.innerHTML = `<div class='activity-card'>
+              <div>
+                  <p>Date: ${record.Date}</p>
+                      <div >
+                       <p>Donor : ${record.donor_name}</p>
+                        <p>Charity Org. : ${record.charity_name}</p>
+                        <p>Item: ${record.Item}</p> 
+                        <p>Quantity:${record.Quantity}</p>  
+                      </div>
+              </div>
+              </div>
+             <br>
+          `;
+    console.log('ok');
+    profileDetailsContainer.appendChild(recordDiv);
+    console.log('completed');
+}
+
+
 // Call the fetchUserProfile function when the page is loaded
 document.addEventListener('DOMContentLoaded', fetchUserProfile);
 document.addEventListener('DOMContentLoaded', fetchDeliveryRequests);
+document.addEventListener('DOMContentLoaded', fetchUserActivity);
 
 function redirectToLogin() {
     window.location.href = "index.html";
