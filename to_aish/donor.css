@@ -21,9 +21,10 @@
 .texts{
     color: var(--white);
 }
-.logout {
+.logout, .profile {
     color: var(--black);
     display: inline-block;
+    text-align: center;
     width: 100px;
     height: 45px;
     padding: 10px 15px;
@@ -32,6 +33,7 @@
     border-radius: 5px;
     cursor: pointer;   
 }
+.profile{ width:auto}
 .logout:hover {
     background-color: #43cd6f; /* Light green background on hover */
 }
@@ -125,9 +127,9 @@
 .btn:hover{
   background-color: #767e49;
 }
-.logout{
+/*.logout, .profile{
   text-align: center;
-}
-.logout:hover{
+}*/
+.logout:hover, .profile:hover{
   background-color: #767e49;
 }

@@ -45,7 +45,8 @@ function displayUserProfile(profileData) {
 // Call the fetchUserProfile function when the page is loaded
 document.addEventListener('DOMContentLoaded', ()=>
 {
-    fetchUserProfile();
+    fetchUserProfile(); 
+    fetchUserActivity();
     const deleteProfileButton = document.getElementById('deleteprofile');
     deleteProfileButton.addEventListener('click', () => {
       // Ask for confirmation
@@ -76,6 +77,81 @@ async function deleteProfile() {
     } catch (error) {
       console.error('Error deleting profile:', error.message);
     }
+}
+//user activity
+async function fetchUname() {
+  try {
+    const { data, error } = await supabase
+      .from('Donor')
+      .select('Name')
+      .eq('Email', storedEmail)
+      .single();
+    console.log(data, 'fetchuname');
+    console.log(data.Name)
+    var uname = data.Name;
+
+    if (error) {
+      throw error;
+    }
+
+    if (data) {
+      console.log(uname, 'got it');
+    } else {
+      console.log('User profile not found.');
+    }
+  }
+
+  catch (error) {
+    console.error('Error fetching user profile:', error.message);
+  }
+  console.log(uname, 'available here')
+  return uname;
+}
+
+async function fetchUserActivity() {
+  const uname1 = await fetchUname();
+  console.log(uname1, 'from fetchuseractivity')
+
+  try {
+    const { data, error } = await supabase
+      .from('Orders')
+      .select('Date, charity_name, Item, Quantity')
+      .eq('donor_name', uname1)
+
+    console.log(data)
+
+    if (error) {
+      throw error;
+    }
+
+    data.forEach((record, index) => {
+      console.log('Processing record:', record);
+      displayUserActivity(record);
+    });
+
+  } catch (error) {
+    console.error('Error fetching user profile:', error.message);
+  }
+}
+
+function displayUserActivity(record) {
+  const profileDetailsContainer = document.getElementById('activity');
+  const recordDiv = document.createElement('div');
+  recordDiv.innerHTML = `<div class='activity-card'>
+            <div>
+                <p>Date: ${record.Date}</p>
+                    <div >
+                      <p>Charity Org. : ${record.charity_name}</p>
+                      <p>Item: ${record.Item}</p> 
+                      <p>Quantity:${record.Quantity}</p>  
+                    </div>
+            </div>
+            </div>
+           <br>
+        `;
+  console.log('ok');
+  profileDetailsContainer.appendChild(recordDiv);
+  console.log('completed');
 }
 
 function redirectToAnotherPage() {

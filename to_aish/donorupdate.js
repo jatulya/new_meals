@@ -22,7 +22,13 @@ async function handleFormSubmit() {
       updateData['Ph_no'] = Ph_no1;
       updateData['Address'] = Address1;
       console.log("Gathered the data from the form")
-      const { error } = await supabase.from('Donor').update(updateData).eq('Email', storedEmail)
+      const updateFields = {};
+      for (const field in updateData) {
+          if (!(updateData[field] === '')) {
+              updateFields[field] = updateData[field];
+          }
+      }
+      const { error } = await supabase.from('Donor').update(updateFields).eq('Email', storedEmail)
       if (error) {
           console.log("Failed to insert: ", error);
       }
