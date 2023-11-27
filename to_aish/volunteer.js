@@ -147,9 +147,11 @@ function displayRequests(record) {
     </div>
     <div class="delivery-requestbtn button-allign">
         <div class="btn-group status-buttons" role="group" aria-label="Basic example" >
-            <button type="button" class="btn btn-primary status-buttons">Accept</button>
+            <button type="button" class="btn btn-primary status-buttons" onclick="toggleButtons()">Accept</button>
             <button type="button" class="btn btn-primary status-buttons" >Decline</button>
           </div>
+          
+
     </div>
         `;
     console.log('ok');
@@ -157,6 +159,36 @@ function displayRequests(record) {
     console.log('completed');
 
 }
+
+
+
+
+async function updateData(message, OrderID) {
+    try {
+
+        // Replace 'your_table_name' with the name of your Supabase table
+        const { error } = await supabase
+            .from('Orders')
+            .update([
+                {
+                    // Specify the conditions to update the data (e.g., where clause)
+                    // For example, update the 'column_to_update' to 'new_value'
+                    Delivery_status: message,
+                }
+            ])
+            .eq('O_id', OrderID)
+
+
+        if (error) {
+            throw error;
+        }
+
+        console.log('Data updated successfully:');
+    } catch (error) {
+        console.error('Error updating data:', error.message);
+    }
+}
+
 
 async function fetchUname() {
     try {
@@ -195,7 +227,7 @@ async function fetchUserActivity() {
     try {
         const { data, error } = await supabase
             .from('Orders')
-            .select('Date, donor_name, charity_name, Item, Quantity')
+            .select('O_id, Date, donor_name, charity_name, Item, Quantity, Delivery_status')
             .eq('volunteer', uname1)
 
         console.log(data)
@@ -220,21 +252,36 @@ function displayUserActivity(record) {
     const recordDiv = document.createElement('div');
     recordDiv.innerHTML = `<div class='activity-card'>
               <div>
-                  <p>Date: ${record.Date}</p>
+                  <p>Date : ${record.Date}</p>
                       <div >
+                      <p>OrderID : ${record.O_id}</p>
                        <p>Donor : ${record.donor_name}</p>
                         <p>Charity Org. : ${record.charity_name}</p>
                         <p>Item: ${record.Item}</p> 
-                        <p>Quantity:${record.Quantity}</p>  
+                        <p>Quantity:${record.Quantity}</p> 
+                        <p>Current Delivery Status :  ${record.Delivery_status}</p>
+                      </div>
+                      <div class="top">
+                            <p>Update delivery Status : </p>
+                            <select id="who1" class="form-select" aria-label="Default select example" onchange="updateData(this.value, ${record.O_id})">
+                                <option value="" disabled selected>Select an option</option>
+                                <option value="Heading to pickup location">Heading to pickup location</option>
+                                <option value="Picked up..to charity org">Picked up..to charity org</option>
+                                <option value="Delivered">Delivered</option>
+                              </select>
                       </div>
               </div>
               </div>
              <br>
           `;
-    console.log('ok');
+
+
+    console.log('ok', record.O_id);
     profileDetailsContainer.appendChild(recordDiv);
     console.log('completed');
 }
+
+
 
 
 // Call the fetchUserProfile function when the page is loaded

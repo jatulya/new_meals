@@ -88,7 +88,7 @@ async function fetchDonationRequests() {
     try {
         const { data, error } = await supabase
             .from('Requests')
-            .select('donor_name, Date, Quantity, food_type, Address')
+            .select('donor_name, Date, Quantity, Items, Address')
             .eq('Status', st)
 
         if (error) {
@@ -119,7 +119,7 @@ function displayRequests(record) {
                 <div class="row">
                     <div class="col-4">
                         <p class="js-qty2">Quantity : ${record.Quantity}</p>
-                        <p class="js-foodtype2">Type : ${record.food_type}</p>
+                        <p class="js-foodtype2">Item : ${record.Items}</p>
                     </div>
                     <div class="col-4">
                         <p class="js-city2">Location: ${record.Address}</p> 
@@ -255,7 +255,7 @@ async function fetchUserActivity() {
     try {
         const { data, error } = await supabase
             .from('Orders')
-            .select('Date, donor_name, Item, Quantity')
+            .select('Date, donor_name, Item, Quantity, Delivery_status')
             .eq('charity_name', uname1)
 
         console.log(data)
@@ -284,7 +284,8 @@ function displayUserActivity(record) {
                       <div >
                         <p>Donor Name : ${record.donor_name}</p>
                         <p>Item: ${record.Item}</p> 
-                        <p>Quantity:${record.Quantity}</p>  
+                        <p>Quantity:${record.Quantity}</p>
+                        <p>Delivery Status:${record.Delivery_status}</p>  
                       </div>
               </div>
               </div>
