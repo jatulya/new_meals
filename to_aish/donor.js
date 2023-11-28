@@ -115,7 +115,7 @@ async function fetchUserActivity() {
   try {
     const { data, error } = await supabase
       .from('Orders')
-      .select('Date, charity_name, Item, Quantity')
+      .select('Date, charity_name, Item, Quantity, Delivery_status')
       .eq('donor_name', uname1)
 
     console.log(data)
@@ -143,7 +143,8 @@ function displayUserActivity(record) {
                     <div >
                       <p>Charity Org. : ${record.charity_name}</p>
                       <p>Item: ${record.Item}</p> 
-                      <p>Quantity:${record.Quantity}</p>  
+                      <p>Quantity:${record.Quantity}</p> 
+                      <p>Delivery Status: ${record.Delivery_status}</p>     
                     </div>
             </div>
             </div>

@@ -30,36 +30,6 @@
                 <form>
                   <div class="top">
                     <p class="heading">Update Volunteer Profile</p>
-                    <!--<h5>Select an option</h5>
-                    <label>
-                      <input
-                        type="radio"
-                        name="option"
-                        value="option1"
-                        onclick="showBox('option1')"
-                      />
-                      Donor
-                    </label>
-                    <br />
-                    <label>
-                      <input
-                        type="radio"
-                        name="option"
-                        value="option2"
-                        onclick="showBox('option2')"
-                      />
-                      Volunteer
-                    </label>
-                    <br />
-                    <label>
-                      <input
-                        type="radio"
-                        name="option"
-                        value="option3"
-                        onclick="showBox('option3')"
-                      />
-                      Charity Organisation
-                    </label>-->
                     <div class="mb-3" id="displayemail">Email Id:</div>
                     <div class="mb-3">
                       <label for="profilename" class="form-label text-form"
@@ -75,20 +45,6 @@
                         size="50px"
                       />
                     </div>
-                    <!--<div class="mb-3">
-                      <label for="email1" class="form-label text-form"
-                        >Email Id</label
-                      >&nbsp &nbsp
-                      <input
-                        type="email"
-                        name="Email"
-                        class="form-control-sm textarea"
-                        id="email1"
-                        placeholder="Enter your email"
-                        size="50px"
-                      />
-                    </div>-->
-  
                     <div class="mb-3">
                       <label for="password1" class="form-label text-form"
                         >Password</label
@@ -112,7 +68,10 @@
                         name="Ph_no"
                         class="form-control-sm textarea"
                         id="exampleInputText1"
-                        placeholder="Enter contact number"
+                        placeholder="Enter 10-digit contact number"
+                        pattern="\d{10}"
+                        title="Please enter a 10-digit phone number"
+                        required
                         size="50px"
                       />
                     </div>
@@ -130,21 +89,6 @@
                         size="50px"
                       />
                     </div>
-  
-                    <!--<div id="detailsoption1" class="hidden mb-3">
-                      <label for="usertype" class="form-label text-form"
-                        >Restaurant or Individual</label
-                      >
-                      <input
-                        type="text"
-                        name="RI"
-                        class="form-control-sm textarea"
-                        id="exampleusertype"
-                        placeholder="Restaurant or Individual"
-                        size="50px"
-                      />
-                    </div>-->
-  
                     <div>
                       <div class="mb-3">
                         <label for="dateofbirth" class="form-label text-form"
@@ -208,14 +152,6 @@
                         />
                       </div>
                     </div>
-  
-                    <!--<div id="detailsoption3" class="hidden">
-                      <h3>Details for Option 3:</h3>-->
-                    <!-- Include form fields for Option 3 -->
-                    <!--<label
-                        >Preference: <input type="text" name="preferenceOption3"
-                      /></label>
-                    </div>-->
                   </div>
                   <br />
                   <div class="d-grid gap-2">

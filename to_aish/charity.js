@@ -43,7 +43,7 @@ async function fetchDonationRequests() {
     try {
         const { data, error } = await supabase
             .from('Requests')
-            .select('R_id, donor_name, Date, Quantity, food_type, Address, Items')
+            .select('R_id, donor_name, Date, Quantity, Items, Address')
             .eq('Status',st)
         
         if (error) {
@@ -78,7 +78,6 @@ function displayRequests(record) {
                 </div>
                 <div class="col-4">
                     <p class="js-qty2">Quantity : ${record.Quantity}</p>
-                    <p class="js-foodtype2">Type : ${record.food_type}</p>
                     <p class="js-item2">Item: ${record.Items}</p>  
                 </div>              
             </div>
@@ -146,7 +145,7 @@ async function addToOrderTable (event) {
     const reqID = detailsContainer.querySelector('.js-reqID').textContent.split(':')[1].trim();
     const donorName = detailsContainer.querySelector('.js-donor2').textContent.split(':')[1].trim();
     const quantity = detailsContainer.querySelector('.js-qty2').textContent.split(':')[1].trim();
-    const foodType = detailsContainer.querySelector('.js-foodtype2').textContent.split(':')[1].trim();
+    const foodType = detailsContainer.querySelector('.js-item2').textContent.split(':')[1].trim();
     const address = detailsContainer.querySelector('.js-city2').textContent.split(':')[1].trim();
     const date = detailsContainer.querySelector('.js-date2').textContent.split(':')[1].trim();
     const item = detailsContainer.querySelector('.js-item2').textContent.split(':')[1].trim();
@@ -241,7 +240,7 @@ async function fetchUserActivity() {
     try {
         const { data, error } = await supabase
             .from('Orders')
-            .select('Date, donor_name, Item, Quantity')
+            .select('Date, donor_name, Item, Quantity, Delivery_status')
             .eq('charity_name', uname1)
 
         console.log(data)
@@ -269,7 +268,8 @@ function displayUserActivity(record) {
                       <div >
                         <p>Donor Name : ${record.donor_name}</p>
                         <p>Item: ${record.Item}</p> 
-                        <p>Quantity:${record.Quantity}</p>  
+                        <p>Quantity:${record.Quantity}</p>
+                        <p>Delivery Status: ${record.Delivery_status}</p>    
                       </div>
               </div>
               </div>
@@ -279,8 +279,6 @@ function displayUserActivity(record) {
     profileDetailsContainer.appendChild(recordDiv);
     console.log('completed');
 }
-
-//document.addEventListener('DOMContentLoaded', fetchUserActivity);
 
  // Function to delete the profile record from the Supabase table
  async function deleteProfile() {
