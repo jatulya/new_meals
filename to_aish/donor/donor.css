@@ -1,0 +1,135 @@
+:root{
+    --white : white;
+    --army-green: #4b5320;
+    --black : #000000;
+    --box-color: rgb(208, 212, 194);
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.profile-ctn{
+    background-color: var(--box-color); /* Light green background color */
+    padding: 20px;
+    width: 100%; /* Width spans the window */
+    text-align: center; /* Center text */
+    font-size: 1.5rem;
+  }
+.nav1{
+    background-color: var(--army-green);
+    height: 85px;
+    width: 100%;
+    padding: 10px;
+}
+.texts{
+    color: var(--white);
+}
+.logout, .profile {
+    color: var(--black);
+    display: inline-block;
+    text-align: center;
+    width: 100px;
+    height: 45px;
+    padding: 10px 15px;
+    background-color: var(--white);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;   
+}
+.profile{ width:auto}
+.logout:hover {
+    background-color: #43cd6f; /* Light green background on hover */
+}
+.to-mid{
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+  /* Added styles for the first column */
+  .box-ctn {
+    background-color: var(--box-color); /* White background */
+    width: 320px;
+    height: auto;
+    padding: 20px;
+    box-shadow: var(--box-shadow); /* Light box shadow */
+    border-radius: 10px; /* Rounded corners */
+    text-align: left; /* Center text */
+    margin-left: 2%;
+  }
+  .box-ctn2{
+    width: 600px;
+  }
+  .box-ctn3{
+    width: 300px;
+  }
+  .profile-image {
+    width: 100px; 
+    height: 100px; 
+    border-radius: 50%; /* Make it round */
+    margin-bottom: 10px; /* Add some space below the image */
+  }
+  .rating {
+    color: var(--black); 
+    font-size: 1rem; 
+  }
+  .about-section {
+    margin-top: 20px; /* Add space between the rating and the about section */
+  }
+  .heading {
+    position: relative;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--black);
+    margin-bottom: 15px;
+  }
+  .line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1.5px; /* Line thickness */
+    background-color: var(--black);
+    box-shadow:var(--box-shadow);/* Line shadow */
+  }
+  .details {
+    font-size: 1rem;
+    color: #555;
+    text-align: left;
+  }
+  #donate-form {
+    margin-top: 20px; /* Add space between the heading and the form */
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+
+  .donation-requestcard,.delivery-requestcard, .activity-card{
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+    padding:20px;
+  }
+
+  .status-buttons{
+    background-color: #4b5320;
+    border-color: #000000;
+  }
+
+  .button-allign{
+    text-align: center;
+  }
+
+  .status-buttons:hover {
+    background-color: #767e49; /* Light green background on hover */
+}
+.btn{
+  background-color: #4b5320;
+  border-color: #4b5320;
+}
+.btn:hover{
+  background-color: #767e49;
+}
+/*.logout, .profile{
+  text-align: center;
+}*/
+.logout:hover, .profile:hover{
+  background-color: #767e49;
+}
