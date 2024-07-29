@@ -326,7 +326,7 @@ function displayUserActivity(record) {
 }
 
 function redirectToLogin() {
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
 }
 
 function redirectToVolUpdate() {

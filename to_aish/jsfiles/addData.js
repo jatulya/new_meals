@@ -1,4 +1,4 @@
-import { sendreq } from "./request.js";
+//import { sendreq } from "./request.js";
 
 document.addEventListener('DOMContentLoaded', function () {
     console.log("AddData.js beginning")
