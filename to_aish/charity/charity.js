@@ -312,7 +312,7 @@ function declineData(event) {
 }
 
 function redirectToLogin() {
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
 }
 function redirectToAnotherPage1() {
     // Replace 'another-page.html' with the actual URL of the page you want to navigate to
