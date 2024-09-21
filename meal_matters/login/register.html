@@ -241,86 +241,70 @@
   
       function showBox(option) {
         // Hide all details divs
-        document.getElementById("detailsoption1").classList.add("hidden");
-        document.getElementById("detailsoption2").classList.add("hidden");
-        document.getElementById("detailsoption3").classList.add("hidden");
+        const detailDivs = ["detailsoption1", "detailsoption2", "detailsoption3"];
+        detailDivs.forEach(div => document.getElementById(div).classList.add("hidden"));
 
-        // Show details div based on the selected option
+        // Show the selected details div
         document.getElementById("details" + option).classList.remove("hidden");
 
-        if (option == "option1") {
-          let containerDiv = document.querySelector(".register");
-          containerDiv.style.height = "140vh";
-        }
+        // Adjust the container height dynamically based on the option selected
+        const containerDiv = document.querySelector(".register");
+        const heights = {
+            "option1": "140vh",
+            "option2": "180vh",
+            "option3": "130vh"
+        };
 
-        if (option == "option2") {
-          let containerDiv = document.querySelector(".register");
-          containerDiv.style.height = "180vh";
-        }
+        containerDiv.style.height = heights[option];
+      }
 
-        if (option == "option3") {
-          let containerDiv = document.querySelector(".register");
-          containerDiv.style.height = "130vh";
-        }
-     }
       const form = document.getElementById('registerform');
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
         // Creating a user to authenticate
-      const { data, error } = await supabase.auth.signUp({
-        email: document.getElementById('email1').value,
-        password: document.getElementById('password1').value,
-      })    
+        const { data, error } = await supabase.auth.signUp({
+          email: document.getElementById('email1').value,
+          password: document.getElementById('password1').value,
+        })    
+
         console.log(data)
         if (error) {
           alert(error)
         } else {
-            console.log("no error till signup")
+          console.log("no error till signup")
+          const formInputs = form.querySelectorAll('input, textarea, select');
+          let dataObject = {};
+          formInputs.forEach(element => {
+          const { value, name } = element;
+            if (value) {
+                if (name !== '' && name!="option")
+                    dataObject[name] = value;
+                }
+          });
         
-    
-        const formInputs = form.querySelectorAll('input, textarea, select');
-    
-        let dataObject = {};
-        formInputs.forEach(element => {
-        const { value, name } = element;
-          if (value) {
-              if (name !== '' && name!="option")
-                  dataObject[name] = value;
+          console.log(dataObject)
+        
+          const selectedOption = document.querySelector('input[name="option"]:checked').value;
+          
+          const tableMapping = {
+              'option1': 'Donor',
+              'option2': 'Volunteers',
+              'option3': 'Charity_Organisation'
+          };
+          const table = tableMapping[selectedOption];
+
+          if (table) {
+              const { error, data } = await supabase.from(table).insert([dataObject]);
+              if (error) {
+                  console.log(`Error inserting data into '${table}' table:`, error);
+              } else {
+                  console.log(`Data inserted into '${table}' table:`, data);
               }
-        });
-        
-        console.log(dataObject)
-        const selectedoption = document.querySelector('input[name="option"]:checked').value;
-        if ( selectedoption == 'option1')
-        {
-            const { error, data } = await supabase.from('Donor').insert([dataObject]);
-            if (error) {
-                console.log("Error inserting data into 'Donor' table:", error);
-            } else {
-                console.log("Data inserted into 'Donor' table:", data);
-            }
+          }
+
+          window.location.href = 'login.html';
         }
-        if ( selectedoption == 'option2')
-        {
-            const { error, data } = await supabase.from('Volunteers').insert([dataObject]);
-            if (error) {
-                console.log("Error inserting data into 'Volunteer' table:", error);
-            } else {
-                console.log("Data inserted into 'Volunteer' table:", data);
-            }
-        } 
-        if (selectedoption == 'option3')
-        {
-            const { error, data } = await supabase.from('Charity_Organisation').insert([dataObject]);
-            if (error) {
-                console.log("Error inserting data into 'Charity' table:", error);
-            } else {
-                console.log("Data inserted into 'Charity' table:", data);
-            } 
-        }
-        window.location.href = 'login.html';
-      }
-        });
+      });
   </script>
   
   </html>

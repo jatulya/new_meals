@@ -304,7 +304,6 @@ function declineData(event) {
     const dataContainer = event.target.closest('.requests');
     // Check if the data container exists before attempting to remove it
     if (dataContainer) {
-      // Remove the data container from the DOM
       dataContainer.remove();
     } else {
       console.warn("Data container not found.");

@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function handleFormSubmit() {
   // Gather data from the form
-  console.log("Inside the asynch function")
+  console.log("Inside the async function")
 
   const foodType = document.getElementById('food_type').value;
   const foodWeight = document.getElementById('foodWeight').value;
