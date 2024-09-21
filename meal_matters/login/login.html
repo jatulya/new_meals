@@ -27,7 +27,7 @@
                         <br/>
                         <div class="mb-3">
                           <label for="exampleInputEmail1" class="form-label text-form">Email</label>
-                          <input type="email" class="form-control" id="email1" aria-describedby="emailHelp" placeholder="Enter your username">
+                          <input type="email" class="form-control" id="email1" aria-describedby="emailHelp" placeholder="Enter your email">
                         </div>
                         <div class="mb-3">
                           <label for="exampleInputPassword1" class="form-label text-form">Password</label>
@@ -70,29 +70,22 @@
             console.log(userEmail)
             const { data, error } = await supabase.from(whoI).select('*').eq('Email',userEmail )            
 
-            if(whoI == "Donor"){  
-                if (data.length){
-                    window.location.href = "donor.html";
+           if (data.length) {
+                const pages = {
+                    "Donor": "donor.html",
+                    "Charity_Organisation": "charity.html",
+                    "Volunteers": "volunteer.html"
+                };
+            
+                const targetPage = pages[whoI];
+                
+                if (targetPage) {
+                    window.location.href = targetPage;
+                } else {
+                    alert("Invalid user type");
                 }
-                else{
-                alert("User doesn't exist")
-                }
-            }
-            if(whoI == "Charity_Organisation"){
-                if (data.length){
-                    window.location.href = "charity.html";
-                }
-                else{
-                alert("User doesn't exist")
-                }           
-            }
-            if(whoI == "Volunteers"){
-                if (data.length){
-                    window.location.href = "volunteer.html";
-                }
-                else{
-                alert("User doesn't exist")
-                }             
+            } else {
+                alert("User doesn't exist");
             }
         }
     })
