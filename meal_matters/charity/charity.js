@@ -38,30 +38,30 @@ function displayUserProfile(profileData) {
     }
 }
 
-async function fetchDonationRequests() {
-    var st='No';
+/*async function fetchDonationRequests() {
     try {
+        /*const { data, error } = await supabase
+            .from('Requests')
+            .select('R_id, donor_name, Date, Quantity, Items, Address')
+            .eq('Status','No')
+        //new code
         const { data, error } = await supabase
             .from('Requests')
             .select('R_id, donor_name, Date, Quantity, Items, Address')
-            .eq('Status',st)
-        
+            .eq('Status', 'No')
+            .gte('Date', supabase.fn.now() - '1 day') // Fetch requests within the last day
+            .order('Date', { ascending: false }); // Order by date in descending order
+        //till here
         if (error) {
             throw error;
+        } else {
+            console.log('Recent requests:', data);
         }
-        console.log('Retrieved data:', data);
-
-        console.log('no error till now');
-        // Display user profile details on the page
-        data.forEach((record, index) => {
-            console.log('Processing record:', record);
-            displayRequests(record);
-        });
-
     } catch (error) {
         console.error('Error fetching requests:', error.message);
     }
 }
+
 // Display request details on the page
 function displayRequests(record) {
     console.log('running display');
@@ -91,48 +91,153 @@ function displayRequests(record) {
     console.log('ok');
     donationReqContainer.appendChild(recordDiv);
     console.log('completed');
+}*/
+
+let requests = [];
+let filteredRequests = [];
+let currentPage = 0;
+let requestsPerPage = 10;
+
+async function fetchDonationRequests() {
+  try {
+    const { data, error } = await supabase
+      .from('Requests')
+      .select('R_id, donor_name, Date, Quantity, Items, Address')
+      .eq('Status', 'No')
+      .gte('Date', supabase.fn.now() - '1 day')
+      .order('Date', { ascending: false });
+
+    if (error) {
+      throw error;
+    } else {
+      requests = data;
+      filteredRequests = requests.slice();
+    }
+  } catch (error) {
+    console.error('Error fetching requests:', error.message);
+  }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function displayRequests() {
+  const donationReqContainer = document.getElementById('donate-card');
+  donationReqContainer.innerHTML = '';
+  for (let i = 0; i < Math.min(requestsPerPage, filteredRequests.length); i++) {
+    const request = filteredRequests[i];
+    const requestDiv = document.createElement('div');
+    requestDiv.innerHTML = `
+      <div class="requests">
+        <div>
+          <p class="js-reqID">Request ID: ${request.R_id}</p>
+          <div class="row">
+            <div class="col-4">
+              <p class="js-donor2">Donor: ${request.donor_name}</p>
+              <p class="js-city2">Location: ${request.Address}</p> 
+              <p class="js-date2">Date: ${request.Date}</p>
+            </div>
+            <div class="col-4">
+              <p class="js-qty2">Quantity : ${request.Quantity}</p>
+              <p class="js-item2">Item: ${request.Items}</p>  
+            </div>              
+          </div>
+        </div>
+        <div class="donation-requestbtn button-allign">
+          <div class="btn-group status-buttons" role="group" aria-label="Basic example" >
+            <button type="button" class="btn btn-primary status-buttons acceptbtnclass" >Accept</button>
+            <button type="button" class="btn btn-primary status-buttons declinebtnclass">Decline</button>
+          </div>
+        </div>
+      </div>
+    `;
+    donationReqContainer.appendChild(requestDiv);
+  }
+  if (filteredRequests.length <= requestsPerPage) {
+    document.getElementById('show-more-requests').style.display = 'none';
+  } else {
+    document.getElementById('show-more-requests').style.display = 'block';
+  }
+}
+
+function applyFilters() {
+  const dietPreference = document.getElementById('diet-preference').value;
+  const amountRange = document.getElementById('amount-range').value;
+  filteredRequests = requests.filter((request) => {
+    if (dietPreference !== 'all' && request.Items !== dietPreference) {
+      return false;
+    }
+    if (amountRange !== 'all') {
+      const quantity = parseInt(request.Quantity);
+      switch (amountRange) {
+        case 'below-10':
+          if (quantity >= 10) return false;
+          break;
+        case '10-20':
+          if (quantity < 10 || quantity > 20) return false;
+          break;
+        case '20-30':
+          if (quantity < 20 || quantity > 30) return false;
+          break;
+        case '30-40':
+          if (quantity < 30 || quantity > 40) return false;
+          break;
+        case '40-50':
+          if (quantity < 40 || quantity > 50) return false;
+          break;
+        case 'above-50':
+          if (quantity <= 50) return false;
+          break;
+      }
+    }
+    return true;
+  });
+  currentPage = 0;
+  displayRequests();
+}
+
+function showMoreRequests() {
+  currentPage++;
+  displayRequests();
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
     fetchUserProfile();
     fetchUserActivity();
     console.log('start')   
-
-    //Move the declaration of acceptBtn inside the event listener
-    fetchDonationRequests()
-        .then(() => {
-            // Fetching is completed, now get the acceptbtn
-            const acceptBtns = document.querySelectorAll('.acceptbtnclass');
-            console.log(acceptBtns);
-            // Attach event listener to each 'acceptbtn'
-            acceptBtns.forEach((btn) => {
-                btn.addEventListener('click', addToOrderTable);
-                console.log("Added event listener to an 'acceptbtn'");
-            });
-            const declineBtns = document.querySelectorAll('.declinebtnclass');
-            console.log(declineBtns);
-            // Attach event listener to each 'acceptbtn'
-            declineBtns.forEach((btn) => {
-                btn.addEventListener('click', declineData);
-                console.log("Added event listener to an 'declinebtn'");
-            });
-        console.log('end');
-        })
-        .catch(error => {
-            console.error('Error fetching donation requests:', error.message);
-        });
-
-        const deleteProfileButton = document.getElementById('deleteprofile');
-        deleteProfileButton.addEventListener('click', () => {
-            // Ask for confirmation
-            const isConfirmed = confirm('Are you sure you want to delete your profile?');   
-            if (isConfirmed) {
-                // Perform the deletion
-                deleteProfile();
-            } 
-        });
-});
-
+  
+    try {
+      await fetchDonationRequests();
+      displayRequests();
+      
+      const acceptBtns = document.querySelectorAll('.acceptbtnclass');
+      console.log(acceptBtns);
+      // Attach event listener to each 'acceptbtn'
+      acceptBtns.forEach((btn) => {
+        btn.addEventListener('click', addToOrderTable);
+        console.log("Added event listener to an 'acceptbtn'");
+      });
+      const declineBtns = document.querySelectorAll('.declinebtnclass');
+      console.log(declineBtns);
+      // Attach event listener to each 'acceptbtn'
+      declineBtns.forEach((btn) => {
+        btn.addEventListener('click', declineData);
+        console.log("Added event listener to an 'declinebtn'");
+      });
+      document.getElementById('apply-filters').addEventListener('click', applyFilters);
+      document.getElementById('show-more-requests').addEventListener('click', showMoreRequests);
+      console.log('end');
+    } catch (error) {
+      console.error('Error fetching donation requests:', error.message);
+    }
+  
+    const deleteProfileButton = document.getElementById('deleteprofile');
+    deleteProfileButton.addEventListener('click', () => {
+      // Ask for confirmation
+      const isConfirmed = confirm('Are you sure you want to delete your profile?');   
+      if (isConfirmed) {
+        // Perform the deletion
+        deleteProfile();
+      } 
+    });
+  });
 async function addToOrderTable (event) {
     console.log('accept button event listener');
 
@@ -253,7 +358,7 @@ async function fetchUserActivity() {
             console.log('Processing record:', record);
             displayUserActivity(record);
         });
-
+p
     } catch (error) {
         console.error('Error fetching user profile:', error.message);
     }

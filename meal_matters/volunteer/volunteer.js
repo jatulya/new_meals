@@ -70,6 +70,7 @@ async function fetchDeliveryRequests() {
         console.error('Error fetching requests:', error.message);
     }
 }
+
 // Display request details on the page
 function displayRequests(record) {
     console.log('running display');
@@ -154,7 +155,6 @@ function declineData(event) {
       console.warn("Data container not found.");
     }
 }
-
 async function addToOrderTable (event) {
     console.log('accept button event listener');
 
@@ -202,7 +202,6 @@ async function addToOrderTable (event) {
         console.error('Error fetching user profile:', e.message);
     }
 }
-
 async function deleteProfile() {
     try {
         const { data, error } = await supabase
@@ -218,7 +217,6 @@ async function deleteProfile() {
         console.error('Error deleting profile:', error.message);
     }
 }
-
 //user activity
 async function fetchUname() {
     try {
@@ -248,7 +246,6 @@ async function fetchUname() {
     console.log(uname, 'available here')
     return uname;
 }
-
 async function fetchUserActivity() {
     const uname1 = await fetchUname();
     console.log(uname1, 'from fetchuseractivity')
@@ -274,7 +271,6 @@ async function fetchUserActivity() {
         console.error('Error fetching user profile:', error.message);
     }
 }
-
 async function updateData(message, OrderID) {
     try {
         // Replace 'your_table_name' with the name of your Supabase table
@@ -292,6 +288,7 @@ async function updateData(message, OrderID) {
         console.error('Error updating data:', error.message);
     }
 }
+
 function displayUserActivity(record) {
     const profileDetailsContainer = document.getElementById('activity');
     const recordDiv = document.createElement('div');
